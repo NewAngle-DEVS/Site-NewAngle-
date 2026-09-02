@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL('https://newangle-studio.lucasgomezg.chatgpt.site'),
   title: 'NewAngle — Um novo ângulo para sua presença digital',
   description: 'Criamos e redesenhamos experiências digitais que transformam a forma como sua empresa é percebida.',
   keywords: ['criação de sites', 'redesign de sites', 'sites institucionais', 'web design', 'landing pages'],
