@@ -70,6 +70,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [comparison, setComparison] = useState<'before' | 'after'>('after');
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>('[data-reveal]');
@@ -88,9 +90,36 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  function submitLead(event: FormEvent<HTMLFormElement>) {
+  async function submitLead(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    setSending(true);
+    setFormError('');
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/newangle.dev@gmail.com', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formData,
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || result?.success === false) {
+        throw new Error('Não foi possível enviar a mensagem.');
+      }
+
+      form.reset();
+      setSent(true);
+    } catch {
+      setFormError('Não foi possível enviar agora. Tente novamente em instantes.');
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -396,20 +425,26 @@ export default function Home() {
           {sent ? (
             <div className="success-state" role="status">
               <div><Check size={26} /></div>
-              <span>Mensagem recebida</span>
+              <span>Mensagem enviada</span>
               <h3>Obrigado por confiar seu projeto à NewAngle.</h3>
-              <p>Esses dados serão conectados ao canal de atendimento oficial antes da publicação.</p>
-              <button type="button" onClick={() => setSent(false)}>Enviar outra mensagem</button>
+              <p>Recebemos seus dados e entraremos em contato pelo canal informado.</p>
+              <button type="button" onClick={() => { setSent(false); setFormError(''); }}>Enviar outra mensagem</button>
             </div>
           ) : (
             <form onSubmit={submitLead}>
               <div className="form-intro"><span>INICIAR UM PROJETO</span><small>Leva menos de 2 minutos</small></div>
-              <label>Seu nome<input name="name" required placeholder="Como podemos chamar você?" /></label>
-              <label>Empresa<input name="company" required placeholder="Nome da sua empresa" /></label>
-              <label>Site atual <span>(opcional)</span><input name="website" type="url" placeholder="https://suaempresa.com.br" /></label>
-              <label>WhatsApp ou e-mail<input name="contact" required placeholder="Onde falamos com você?" /></label>
-              <label>O que você precisa?<textarea name="message" rows={3} required placeholder="Conte brevemente sobre o projeto" /></label>
-              <button className="form-submit" type="submit">Solicitar uma proposta <ArrowRight size={18} /></button>
+              <input type="hidden" name="_subject" value="Nova solicitação de proposta — NewAngle" />
+              <input type="hidden" name="_template" value="table" />
+              <input className="form-honeypot" type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+              <label>Seu nome<input name="Nome" required autoComplete="name" placeholder="Como podemos chamar você?" /></label>
+              <label>Empresa<input name="Empresa" required autoComplete="organization" placeholder="Nome da sua empresa" /></label>
+              <label>Site atual <span>(opcional)</span><input name="Site atual" type="url" inputMode="url" placeholder="https://suaempresa.com.br" /></label>
+              <label>WhatsApp ou e-mail<input name="Contato" required autoComplete="email" placeholder="Onde falamos com você?" /></label>
+              <label>O que você precisa?<textarea name="Projeto" rows={3} required placeholder="Conte brevemente sobre o projeto" /></label>
+              <button className="form-submit" type="submit" disabled={sending} aria-busy={sending}>
+                {sending ? 'Enviando proposta…' : 'Solicitar uma proposta'} <ArrowRight size={18} />
+              </button>
+              {formError && <p className="form-error" role="alert">{formError}</p>}
               <small className="privacy-note">Ao enviar, você concorda em receber nosso contato sobre este projeto.</small>
             </form>
           )}

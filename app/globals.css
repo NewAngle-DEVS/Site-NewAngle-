@@ -322,8 +322,11 @@ a { color: inherit; text-decoration: none; }
 .form-wrap input, .form-wrap textarea { width: 100%; padding: 13px 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.12); border-radius: 0; outline: none; resize: vertical; background: transparent; color: #f2eee7; font: 400 13px/1.4 var(--font-geist-sans); transition: border-color .25s; }
 .form-wrap input::placeholder, .form-wrap textarea::placeholder { color: #4d4d51; }
 .form-wrap input:focus, .form-wrap textarea:focus { border-color: var(--orange); }
+.form-wrap .form-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .form-submit { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 11px; padding: 18px 20px; border: 1px solid #ff8744; background: var(--orange); color: #180c04; font-weight: 720; cursor: pointer; transition: background .25s, transform .25s; }
 .form-submit:hover { background: #ff7c31; transform: translateY(-2px); }
+.form-submit:disabled { cursor: wait; opacity: .72; transform: none; }
+.form-error { margin: 13px 0 0; color: #ff9b6a; font-size: 12px; line-height: 1.5; }
 .privacy-note { margin-top: 14px; color: #555559; font-size: 8px; text-align: center; }
 .success-state { min-height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .success-state > div { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 28px; border: 1px solid rgba(255,120,43,.45); color: var(--orange); background: rgba(255,101,18,.06); }
