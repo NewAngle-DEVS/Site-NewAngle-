@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://newangle-studio.lucasgomezg.chatgpt.site'),
+  metadataBase: new URL('https://newangle-devs.github.io/Site-NewAngle-/'),
   title: 'NewAngle — Um novo ângulo para sua presença digital',
   description: 'Criamos e redesenhamos experiências digitais que transformam a forma como sua empresa é percebida.',
   keywords: ['criação de sites', 'redesign de sites', 'sites institucionais', 'web design', 'landing pages'],
@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     description: 'Seu negócio evoluiu. Seu site também deveria.',
     type: 'website',
     locale: 'pt_BR',
-    images: [{ url: '/og.png', width: 1536, height: 1024, alt: 'NewAngle — Um novo ângulo para sua presença digital' }],
+    images: [{ url: 'https://newangle-devs.github.io/Site-NewAngle-/og.png', width: 1536, height: 1024, alt: 'NewAngle — Um novo ângulo para sua presença digital' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'NewAngle — Um novo ângulo para sua presença digital',
     description: 'Seu negócio evoluiu. Seu site também deveria.',
-    images: ['/og.png'],
+    images: ['https://newangle-devs.github.io/Site-NewAngle-/og.png'],
   },
 };
 
